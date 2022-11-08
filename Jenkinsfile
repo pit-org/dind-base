@@ -17,14 +17,12 @@ pipeline {
           withDockerRegistry([credentialsId: 'artifactory_docker_token', url: 'https://gitit103.jfrog.io']) {
             sh """
               echo "Starting docker build.."
-              DOCKER_BUILDKIT=1 docker build --progress plain -t pit/rhel79:v1 .
-              docker tag pit/rhel79:v1 gitit103.jfrog.io/dev-local-docker/pit/rhel79:v1
-              docker tag pit/rhel79:v1 gitit103.jfrog.io/dev-local-docker/pit/rhel79:latest
+              DOCKER_BUILDKIT=1 docker build --progress plain -t pit/builder-dind:v1 .
+              docker tag pit/builder-dind:v1 gitit103.jfrog.io/dev-local-docker/pit/builder-dind:v1
               echo "Validate image exist..."
               docker images
               echo "Starting push to Artifactory..."
-              docker --config ${DOCKER_CONFIG} push gitit103.jfrog.io/dev-local-docker/pit/rhel79:v1
-              docker --config ${DOCKER_CONFIG} push gitit103.jfrog.io/dev-local-docker/pit/rhel79:latest
+              docker --config ${DOCKER_CONFIG} push gitit103.jfrog.io/dev-local-docker/pit/builder-dind:v1
             """
             }//dockerReg
         }//container
