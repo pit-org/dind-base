@@ -1,0 +1,143 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    some-label: some-label-value
+spec:
+  containers:
+  ##- name: docker
+  ##  image: docker:19.03.1
+  ##  command:
+  ##  - sleep
+  ##  args:
+  ##  - 99d
+  ##  volumeMounts:
+  ##  - name: docker-socket
+  ##    mountPath: /var/run
+  ##- name: docker-daemon
+  ##  image: docker:19.03.1-dind
+  ##  securityContext:
+  ##    privileged: true
+  ##  volumeMounts:
+  ##  - name: docker-socket
+  ##    mountPath: /var/run
+  #- name: jnlp
+  #  env:
+  #  - name: CONTAINER_ENV_VAR
+  #    value: jnlp
+  #  image: "jenkins/inbound-agent:4.11-1-jdk11"
+  #  resources:
+  #    limits: {}
+  #    requests:
+  #      memory: "256Mi"
+  #      cpu: "100m"
+    #volumeMounts:
+    #- mountPath: "/home/jenkins/agent"
+    #  name: "workspace-volume"
+    #  readOnly: false
+  ###- name: maven
+  ###  image: maven:3.8.1-jdk-8
+  ###  command:
+  ###  - sleep
+  ###  args:
+  ###  - 99d
+  ###  env:
+  ###  - name: CONTAINER_ENV_VAR
+  ###    value: maven
+  ###- name: busybox
+  ###  image: busybox
+  ###  command:
+  ###  - cat
+  ###  tty: true
+  ###  env:
+  ###  - name: CONTAINER_ENV_VAR
+  ###    value: busybox
+  ## test7
+  #- name: docker-client-t7
+  #  image: docker:19.03.1
+  #  command: ['sleep', '99d']
+  #  env:
+  #    - name: DOCKER_HOST
+  #      value: tcp://localhost:2375
+  #  volumeMounts:
+  #    - name: cache
+  #      mountPath: /tmp/repository
+  #- name: docker-daemon-t7
+  #  image: docker:19.03.1-dind
+  #  env:
+  #    - name: DOCKER_TLS_CERTDIR
+  #      value: ""
+  #  securityContext:
+  #    privileged: true
+  #  volumeMounts:
+  #    - name: cache
+  #      mountPath: /var/lib/docker
+  ## test4
+    #image: docker:22.06-rc-dind
+    #image: docker:18.05-dind
+  - name: dind-t4
+    image: docker:20.10.17-dind
+    securityContext:
+      privileged: true
+    #  runAsUser: 0
+    #  runAsGroup: 0
+    #  fsGroup: 0
+    #  allowPrivilegeEscalation: true
+    #  readOnlyRootFilesystem: false
+    volumeMounts:
+      - name: dind-storage
+        mountPath: /var/lib/docker
+      ###- name: docker-config
+      ###  mountPath: /root/.docker/config.json
+      ###  subPath: config.json
+  ## test8
+  #- name: docker-t8
+  #  image: docker:19.03.1
+  #  command:
+  #  - sleep
+  #  args:
+  #  - 99d
+  #  volumeMounts:
+  #  - name: docker-socket
+  #    mountPath: /var/run
+  #- name: docker-daemon-t8
+  #  image: docker:19.03.1-dind
+  #  securityContext:
+  #    privileged: true
+  #  volumeMounts:
+  #  - name: docker-socket
+  #    mountPath: /var/run
+  ### test10
+  #- name: docker-t10
+  #  image: docker:19.03.1
+  #  command:
+  #  - sleep
+  #  args:
+  #  - 99d
+  #  volumeMounts:
+  #  - name: dockersock
+  #    mountPath: /var/run/docker.sock
+  volumes:
+    ## test4
+    - name: dind-storage
+      emptyDir: {}
+    #- name: docker-socket
+    #  emptyDir: {}
+    ###- name: docker-config
+    ###  secret:
+    ###    secretName: registry-gitit103-jfrog-io
+    ###    items:
+    ###      - key: .dockerconfigjson
+    ###        path: config.json
+    ## test7
+    #- name: cache
+    #  hostPath:
+    #    path: /tmp
+    #    type: Directory
+    ### test8
+    #- name: docker-socket
+    #  emptyDir: {}
+    ### test10
+    #- name: dockersock
+    #  hostPath:
+    #    path: /var/run/docker.sock

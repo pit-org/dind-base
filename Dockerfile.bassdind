@@ -1,0 +1,10 @@
+FROM docker:20.10.17-dind
+
+RUN apk add curl
+
+RUN curl -L https://services.gradle.org/distributions/gradle-6.9.1-bin.zip -o gradle-6.9.1-bin.zip \
+  && unzip gradle-6.9.1-bin.zip -d /apps/ \
+  && rm -f gradle-6.9.1-bin.zip
+
+ENV GRADLE_HOME "/apps/gradle-6.9.1"
+ENV PATH="${PATH}:${JAVA_HOME}/bin:${GRADLE_HOME}/bin"
