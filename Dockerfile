@@ -2,8 +2,10 @@ ARG DOCKER_VERSION=20.10.14
 
 FROM docker:$DOCKER_VERSION
 #FROM gitit103.jfrog.io/default-docker-virtual/pit/ubi8-jdk-11:v1 as buildx_image
+RUN apk update \
+  && apk add curl tar gzip procps wget gzip tar tzdata vim wget which unzip findutils make git
+  #RHEL8 > RUN apk add tar gzip bind-utils procps wget bind-libs bind-libs-lite bind-license bind-utils expat fstrm gdbm gdbm-libs geolite2-city geolite2-country gpm-libs gzip libmaxminddb libmetalink libnsl2 libtirpc platform-python platform-python-pip platform-python-setuptools procps-ng protobuf-c python3-bind python3-libs python3-pip-wheel python3-ply python3-setuptools-wheel tar tzdata vim-common vim-enhanced vim-filesystem vim-minimal wget which unzip findutils make git
 
-RUN apk add tar gzip bind-utils procps wget bind-libs bind-libs-lite bind-license bind-utils expat fstrm gdbm gdbm-libs geolite2-city geolite2-country gpm-libs gzip libmaxminddb libmetalink libnsl2 libtirpc platform-python platform-python-pip platform-python-setuptools procps-ng protobuf-c python3-bind python3-libs python3-pip-wheel python3-ply python3-setuptools-wheel tar tzdata vim-common vim-enhanced vim-filesystem vim-minimal wget which unzip findutils make git
 RUN curl -L https://services.gradle.org/distributions/gradle-6.9.1-bin.zip -o gradle-6.9.1-bin.zip \
   && unzip gradle-6.9.1-bin.zip -d /apps/ \
   && rm -f gradle-6.9.1-bin.zip
