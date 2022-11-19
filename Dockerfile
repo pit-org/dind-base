@@ -2,7 +2,7 @@ ARG DOCKER_VERSION=20.10.17
 
 FROM docker:$DOCKER_VERSION
 #FROM gitit103.jfrog.io/default-docker-virtual/pit/ubi8-jdk-11:v1 as buildx_image
-#RUN apk update
+RUN apk update
 RUN apk add curl 
 RUN apk add tar
 RUN apk add gzip
@@ -43,7 +43,8 @@ LABEL pit.build-date="${BUILD_DATE}"
 LABEL pit.vcs-url="${VCS_URL}"
 LABEL pit.vcs-ref="${VCS_REF}"
 
-ENTRYPOINT [ "/usr/local/bin/docker" , "buildx"]
+##ENTRYPOINT [ "/usr/local/bin/docker" , "buildx"]
 #ENTRYPOINT [ "/usr/local/bin/docker" ]
+ENTRYPOINT [ "/usr/local/bin/dockerd-entrypoint.sh" ]
 
-CMD ["version"]
+#CMD ["version"]
