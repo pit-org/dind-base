@@ -2,7 +2,7 @@ ARG DOCKER_VERSION=20.10.14
 
 FROM docker:$DOCKER_VERSION
 #FROM gitit103.jfrog.io/default-docker-virtual/pit/ubi8-jdk-11:v1 as buildx_image
-RUN apk update
+#RUN apk update
 RUN apk add curl 
 RUN apk add tar
 RUN apk add gzip
