@@ -11,6 +11,7 @@ RUN curl -L https://services.gradle.org/distributions/gradle-6.9.1-bin.zip -o gr
   && rm -f gradle-6.9.1-bin.zip
 
 #RUN curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+RUN curl -vsSLk --max-time 2 --retry 5 --retry-delay 1 --retry-max-time 10 https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 
 ENV GRADLE_HOME "/apps/gradle-6.9.1"
 ENV PATH="${PATH}:${JAVA_HOME}/bin:${GRADLE_HOME}/bin"
