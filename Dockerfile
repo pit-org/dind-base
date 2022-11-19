@@ -10,9 +10,13 @@ RUN curl -L https://services.gradle.org/distributions/gradle-6.9.1-bin.zip -o gr
   && unzip gradle-6.9.1-bin.zip -d /apps/ \
   && rm -f gradle-6.9.1-bin.zip
 
+## JDK JAVA
+ADD java-11-openjdk-11.0.17.0.8-2.portable.jdk.el.x86_64.tar.xz /apps/
+
 #RUN curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 RUN curl -vsSLk --max-time 2 --retry 5 --retry-delay 1 --retry-max-time 10 https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 
+ENV JAVA_HOME=/apps/java-11-openjdk-11.0.17.0.8-2.portable.jdk.el.x86_64
 ENV GRADLE_HOME "/apps/gradle-6.9.1"
 ENV PATH="${PATH}:${JAVA_HOME}/bin:${GRADLE_HOME}/bin"
 

@@ -14,15 +14,17 @@ pipeline {
     stage('Docker RHEL Base..') {
       steps {
         container('dind-t4') {
-          withDockerRegistry([credentialsId: 'artifactory_docker_token', url: 'https://gitit103.jfrog.io']) {
+          withDockerRegistry([credentialsId: 'artifactory_docker_token', url: 'https://it101.jfrog.io']) {
             sh """
+              apk add curl
+              curl -O "https://it101.jfrog.io/artifactory/example-repo-local/java-11-openjdk-11.0.17.0.8-2.portable.jdk.el.x86_64.tar.xz"
               echo "Starting docker build.."
-              DOCKER_BUILDKIT=1 docker build --progress plain -t pit/builder-dind:v1 .
-              docker tag pit/builder-dind:v1 gitit103.jfrog.io/dev-local-docker/pit/builder-dind:v1
+              DOCKER_BUILDKIT=1 docker build --progress plain -t pit/builder-dind:v2 .
+              docker tag pit/builder-dind:v2 it101.jfrog.io/docker-local/pit/builder-dind:v2
               echo "Validate image exist..."
               docker images
               echo "Starting push to Artifactory..."
-              docker --config ${DOCKER_CONFIG} push gitit103.jfrog.io/dev-local-docker/pit/builder-dind:v1
+              docker --config ${DOCKER_CONFIG} push it101.jfrog.io/docker-local/pit/builder-dind:v2
             """
             }//dockerReg
         }//container
