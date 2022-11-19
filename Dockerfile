@@ -1,23 +1,9 @@
-ARG DOCKER_VERSION=20.10.17
+ARG DOCKER_VERSION=20.10.17-dind
 
 FROM docker:$DOCKER_VERSION
 #FROM gitit103.jfrog.io/default-docker-virtual/pit/ubi8-jdk-11:v1 as buildx_image
 RUN apk update
-RUN apk add curl 
-RUN apk add tar
-RUN apk add gzip
-RUN apk add procps
-RUN apk add wget
-RUN apk add gzip
-RUN apk add tar
-RUN apk add tzdata
-RUN apk add vim
-RUN apk add wget
-RUN apk add which
-RUN apk add unzip
-RUN apk add findutils
-RUN apk add make
-RUN apk add git
+RUN apk add curl bash tar gzip procps wget gzip tar tzdata vim wget which unzip findutils make git
   #RHEL8 > RUN apk add tar gzip bind-utils procps wget bind-libs bind-libs-lite bind-license bind-utils expat fstrm gdbm gdbm-libs geolite2-city geolite2-country gpm-libs gzip libmaxminddb libmetalink libnsl2 libtirpc platform-python platform-python-pip platform-python-setuptools procps-ng protobuf-c python3-bind python3-libs python3-pip-wheel python3-ply python3-setuptools-wheel tar tzdata vim-common vim-enhanced vim-filesystem vim-minimal wget which unzip findutils make git
 
 RUN curl -L https://services.gradle.org/distributions/gradle-6.9.1-bin.zip -o gradle-6.9.1-bin.zip \
@@ -25,12 +11,15 @@ RUN curl -L https://services.gradle.org/distributions/gradle-6.9.1-bin.zip -o gr
   && rm -f gradle-6.9.1-bin.zip
 
 ## JDK JAVA
-ADD java-11-openjdk-11.0.17.0.8-2.portable.jdk.el.x86_64.tar.xz /apps/
+# THIS IS FOR RHEL ONLY - ADD java-11-openjdk-11.0.17.0.8-2.portable.jdk.el.x86_64.tar.xz /apps/
+RUN apk add openjdk11-jdk
 
 #RUN curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-RUN curl -vsSLk --max-time 2 --retry 5 --retry-delay 1 --retry-max-time 10 https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+RUN curl -vsSLk --max-time 2 --retry 5 --retry-delay 1 --retry-max-time 10 -O https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
+  && ls -alh get-helm-3 \
+  && bash get-helm-3
 
-ENV JAVA_HOME=/apps/java-11-openjdk-11.0.17.0.8-2.portable.jdk.el.x86_64
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 ENV GRADLE_HOME "/apps/gradle-6.9.1"
 ENV PATH="${PATH}:${JAVA_HOME}/bin:${GRADLE_HOME}/bin"
 
